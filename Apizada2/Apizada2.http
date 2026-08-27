@@ -1,0 +1,6 @@
+@Apizada2_HostAddress = http://localhost:5126
+
+GET {{Apizada2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
