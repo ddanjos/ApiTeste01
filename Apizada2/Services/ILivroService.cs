@@ -4,7 +4,7 @@ namespace Apizada2.Services
 {
     public interface ILivroService
     {
-        Task<List<Livro>> ListarAsync();
+        Task<List<Livro>> ListarAsync(string? autor = null);
 
         Task<Livro?> ObterPorIdAsync(int id);
 

@@ -39,5 +39,12 @@ namespace Apizada2.Respositories
             _context.Livros.Remove(livro);
             await _context.SaveChangesAsync(true);
         }
+
+        public async Task<List<Livro>> ObterPorAutorAsync(string autor)
+        {
+             return await _context.Livros.
+                Where(l => EF.Functions.ILike(l.Autor, $"%{autor}%")).
+                ToListAsync();
+        }
     }
 }

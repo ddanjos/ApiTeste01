@@ -12,5 +12,7 @@ namespace Apizada2.Respositories
         Task AtualizarAsync(Livro livro);
 
         Task RemoverAsync(Livro livro);
+
+        Task<List<Livro>> ObterPorAutorAsync(string autor);
     }
 }

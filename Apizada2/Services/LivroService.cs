@@ -31,9 +31,11 @@ namespace Apizada2.Services
             return livro;
         }
 
-        public Task<List<Livro>> ListarAsync()
+        public Task<List<Livro>> ListarAsync(string? autor = null)
         {
-          return _repository.ObterTodosAsync();
+            return string.IsNullOrWhiteSpace(autor)
+                  ? _repository.ObterTodosAsync()
+                  : _repository.ObterPorAutorAsync(autor);
         }
 
         public Task<Livro?> ObterPorIdAsync(int id)

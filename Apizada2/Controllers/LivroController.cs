@@ -18,9 +18,9 @@ namespace Apizada2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Livro>>> Listar()
+        public async Task<ActionResult<List<Livro>>> Listar([FromQuery] string? autor)
         {
-            return Ok(await _service.ListarAsync());
+            return Ok(await _service.ListarAsync(autor));
         }
 
         [HttpGet("{id:int}")]
