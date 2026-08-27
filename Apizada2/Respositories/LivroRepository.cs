@@ -1,8 +1,8 @@
-﻿using Apizada2.Infraestructure;
-using Apizada2.Models;
+﻿using Api02.Infraestructure;
+using Api02.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Apizada2.Respositories
+namespace Api02.Respositories
 {
     public class LivroRepository : ILivroRepository
     {

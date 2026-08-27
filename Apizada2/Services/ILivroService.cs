@@ -1,17 +1,14 @@
-﻿using Apizada2.Models;
+﻿using Api02.DTOs;
+using Api02.Models;
 
-namespace Apizada2.Services
+namespace Api02.Services
 {
     public interface ILivroService
     {
         Task<List<Livro>> ListarAsync(string? autor = null);
-
         Task<Livro?> ObterPorIdAsync(int id);
-
-        Task<Livro> CriarAsync(Livro livro);
-
-        Task<bool> AtualizarAync(int id, Livro livro);
-
+        Task<Livro> CriarAsync(LivroDto livro);
+        Task<bool> AtualizarAsync(int id, Livro livro);
         Task<bool> RemoverAsync(int id);
     }
 }

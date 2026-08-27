@@ -1,35 +1,35 @@
-using Apizada2.Infraestructure;
-using Apizada2.Respositories;
-using Apizada2.Services;
+using Api02.Infra;
+using Api02.Repositories;
+using Api02.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Registros básicos
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"))
+);
+
+builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.AddScoped<ILivroService, LivroService>();
+builder.Services.AddScoped<IGeneroRepository, GeneroRepository>();
+builder.Services.AddScoped<IGeneroService, GeneroService>();
+// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 2. REGISTRE O DBCONTEXT AQUI (Antes do builder.Build())
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
-
-// 3. Registre os repositórios e serviços aqui também
-builder.Services.AddScoped<ILivroRepository, LivroRepository>();
-builder.Services.AddScoped<ILivroService, LivroService>();
-
-// 4. Criação da aplicação
 var app = builder.Build();
 
-// 5. Configuração do pipeline HTTP
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

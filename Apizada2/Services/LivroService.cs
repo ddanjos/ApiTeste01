@@ -1,41 +1,55 @@
-﻿using Apizada2.Models;
-using Apizada2.Respositories;
+﻿using Api02.DTOs;
+using Api02.Models;
+using Api02.Repositories;
 
-namespace Apizada2.Services
+namespace Api02.Services
 {
     public class LivroService : ILivroService
     {
+
         private readonly ILivroRepository _repository;
-        public LivroService(ILivroRepository repository) 
+        private readonly IGeneroService _generoService;
+
+        public LivroService(ILivroRepository repository, IGeneroService generoService)
         {
             _repository = repository;
+            _generoService = generoService;
         }
 
-        public async Task<bool> AtualizarAync(int id, Livro livro)
+        public async Task<bool> AtualizarAsync(int id, Livro livro)
         {
-            var existe  = await _repository.ObterPorIdAsync(id);
-            if(existe is null) return false;
+            var existente = await _repository.ObterPorIdAsync(id);
+            if (existente is null) return false;
 
-            existe.Titulo = livro.Titulo;
-            existe.Autor = livro.Autor;
-            existe.Preco = livro.Preco;
-            existe.AnoPublicacao = livro.AnoPublicacao;
-
-            await _repository.AtualizarAsync(existe);
+            existente.Titulo = livro.Titulo;
+            existente.Autor = livro.Autor;
+            existente.AnoPublicacao = livro.AnoPublicacao;
+            existente.Preco = livro.Preco;
+            await _repository.AtualizarAsync(existente);
             return true;
-         }
+        }
 
-        public async Task<Livro> CriarAsync(Livro livro)
+        public async Task<Livro> CriarAsync(LivroDto dto)
         {
-            await _repository.AdicionarLivro(livro);
+            var genero = _generoService.ObterPorIdAsync(dto.GeneroId);
+            if (genero is null) return null;
+
+            Livro livro = new Livro();
+            livro.Autor = dto.Autor;
+            livro.Titulo = dto.Titulo;
+            livro.AnoPublicacao = dto.AnoPublicacao;
+            livro.Id = dto.Id;
+            livro.GeneroId = genero.Id;
+
+            await _repository.AdicionarAsync(livro);
             return livro;
         }
 
         public Task<List<Livro>> ListarAsync(string? autor = null)
         {
-            return string.IsNullOrWhiteSpace(autor)
-                  ? _repository.ObterTodosAsync()
-                  : _repository.ObterPorAutorAsync(autor);
+           return string.IsNullOrWhiteSpace(autor) 
+                ? _repository.ObterTodosAsync()
+                : _repository.ObterPorAutorAsync(autor);
         }
 
         public Task<Livro?> ObterPorIdAsync(int id)
@@ -43,14 +57,13 @@ namespace Apizada2.Services
             return _repository.ObterPorIdAsync(id);
         }
 
-       public async Task<bool> RemoverAsync(int id)
+        public async Task<bool> RemoverAsync(int id)
         {
             var livro = await _repository.ObterPorIdAsync(id);
-            if (livro is null) return false;
+            if(livro is null) return false;
 
-           await _repository.RemoverAsync(livro);
+            await _repository.RemoverAsync(livro);
             return true;
-
         }
     }
 }

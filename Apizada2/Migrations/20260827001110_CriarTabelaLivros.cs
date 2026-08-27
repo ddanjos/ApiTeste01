@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Apizada2.Migrations
+namespace Api02.Migrations
 {
     /// <inheritdoc />
     public partial class CriarTabelaLivros : Migration
