@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copia o .csproj de dentro da subpasta para o container
-COPY ["Apizada2/SuaApi.csproj", "./"]
+COPY ["Apizada2/Api02.csproj", "./"]
 RUN dotnet restore
 
 # Copia todo o resto do código da subpasta para o container
