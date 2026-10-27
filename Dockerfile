@@ -7,7 +7,7 @@ COPY ["Apizada2/SuaApi.csproj", "./"]
 RUN dotnet restore
 
 # Copia todo o resto do código da subpasta para o container
-COPY NomeDaSuaPasta/. .
+COPY Apizada2/. .
 RUN dotnet publish -c Release -o /app/publish
 
 # Estágio de Execução (Runtime)
